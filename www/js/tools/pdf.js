@@ -362,6 +362,9 @@
           });
         });
       }).then(function (b) {
+        if (b.size >= f.size && v.m !== 'light') return readBuf(f).then(loadPdf).then(save).then(function (b2) { return b2.size < b.size ? b2 : b; });
+        return b;
+      }).then(function (b) {
         var pct = Math.round((1 - b.size / f.size) * 100);
         return { name: baseName(f) + '-compressed.pdf', blob: b, note: fmtSize(f.size) + ' → ' + fmtSize(b.size) + (pct > 0 ? ' (−' + pct + '%)' : ' (size kam nahi hua)') };
       });
