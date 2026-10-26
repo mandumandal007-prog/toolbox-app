@@ -1,0 +1,70 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install dependencies (also bundles PDF/ZIP/QR libs into www/vendor)
+        run: npm install --no-audit --no-fund
+
+      - name: Add Android platform
+        run: npx cap add android
+
+      - name: App icon, storage permission
+        run: |
+          cp -r resources/android/* android/app/src/main/res/
+          BG=android/app/src/main/res/values/ic_launcher_background.xml
+          if [ -f "$BG" ]; then sed -i 's/#FFFFFF/#6750A4/I' "$BG"; else printf '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="ic_launcher_background">#6750A4</color>\n</resources>\n' > "$BG"; fi
+          M=android/app/src/main/AndroidManifest.xml
+          sed -i 's#<application#<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />\n    <application android:requestLegacyExternalStorage="true"#' "$M"
+          cat "$M"
+
+      - name: Sync web assets + plugins
+        run: npx cap sync android
+
+      - name: Build APK
+        run: |
+          chmod +x android/gradlew
+          cd android && ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Rename APK
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk toolbox.apk
+          ls -la toolbox.apk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: toolbox-apk
+          path: toolbox.apk
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: ToolBox v1.0.${{ github.run_number }}
+          body: "ToolBox — 119 offline PDF, Photo, Text & Calculator tools. Download toolbox.apk and install (allow 'Install unknown apps')."
+          files: toolbox.apk

@@ -1,0 +1,12 @@
+{
+  "appId": "com.toolbox.pro",
+  "appName": "ToolBox",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": true,
+    "backgroundColor": "#FEF7FF"
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#6750A4">
+<meta name="description" content="100+ PDF and Photo tools in one app">
+<title>ToolBox 100+</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="appbar">
+  <div class="brand">
+    <div class="logo">🧰</div>
+    <div class="brand-txt">
+      <h1>ToolBox</h1>
+      <small><span id="count">0</span> tools · PDF, Photo &amp; more</small>
+    </div>
+  </div>
+  <button id="themeBtn" class="icon-btn" aria-label="Toggle theme">🌙</button>
+</header>
+
+<div class="searchbar">
+  <span class="si">🔎</span>
+  <input id="search" type="search" placeholder="Search tools… (resize, merge, QR)" autocomplete="off">
+</div>
+
+<nav id="chips" class="chips"></nav>
+
+<main id="grid" class="grid"></main>
+<div id="empty" class="empty" hidden>
+  <div class="empty-ic">🔍</div>
+  <p>Koi tool nahi mila</p>
+</div>
+
+<footer class="foot">Made with ❤️ · Material 3 · 100% offline</footer>
+
+<!-- Tool sheet -->
+<section id="sheet" class="sheet" hidden>
+  <div class="sheet-panel">
+    <div class="sheet-head">
+      <button id="sheetBack" class="icon-btn" aria-label="Back">←</button>
+      <div class="sheet-title-wrap">
+        <h2 id="sheetTitle"></h2>
+        <p id="sheetDesc"></p>
+      </div>
+    </div>
+    <div id="sheetBody" class="sheet-body"></div>
+  </div>
+</section>
+
+<div id="toast" class="toast" hidden></div>
+
+
+<script src="vendor/pdf-lib.min.js"></script>
+<script src="vendor/pdf.min.js"></script>
+<script src="vendor/jszip.min.js"></script>
+<script src="vendor/qrcode.js"></script>
+<script src="vendor/JsBarcode.all.min.js"></script>
+
+<script src="js/core.js"></script>
+<script src="js/tools/image.js"></script>
+<script src="js/tools/pdf.js"></script>
+<script src="js/tools/text.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

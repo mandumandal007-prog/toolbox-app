@@ -1,0 +1,29 @@
+{
+  "name": "toolbox-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ToolBox - 119 offline PDF, Photo, Text & Calculator tools (Material 3, Capacitor)",
+  "scripts": {
+    "postinstall": "node scripts/vendor.js",
+    "add:android": "npx cap add android",
+    "sync": "npx cap sync android",
+    "open": "npx cap open android",
+    "apk": "cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "6.2.1",
+    "@capacitor/core": "6.2.1",
+    "@capacitor/app": "6.0.3",
+    "@capacitor/clipboard": "6.0.3",
+    "@capacitor/filesystem": "6.0.4",
+    "@capacitor/share": "6.0.4",
+    "pdf-lib": "1.17.1",
+    "pdfjs-dist": "3.11.174",
+    "jszip": "3.10.1",
+    "qrcode-generator": "1.4.4",
+    "jsbarcode": "3.11.6"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "6.2.1"
+  }
+}
